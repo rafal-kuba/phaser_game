@@ -3,8 +3,10 @@ from app.models import db, User
 
 def register_blueprints(app):
     from app.home import home as home_blueprint
+    from app.auth import auth as auth_blueprint
 
     app.register_blueprint(home_blueprint)
+    app.register_blueprint(auth_blueprint)
 
 def initialize_extensions(app):
     from flask_migrate import Migrate
