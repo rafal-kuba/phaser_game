@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from app.models import db, User
+from app.models import db, User, Role
 
 def register_blueprints(app):
     from app.home import home as home_blueprint
@@ -12,7 +12,7 @@ def initialize_extensions(app):
     from flask_migrate import Migrate
 
     db.init_app(app)
-    Migrate(app, db)
+    Migrate(app, db, render_as_batch=True)
 
 def register_errorhandlers(app):
     # 400 - Bad Request
@@ -48,7 +48,7 @@ def register_tests_commands(app):
 def register_shell_context_processor(app):
     @app.shell_context_processor
     def shell_context():
-        return dict(db=db, User=User)
+        return dict(db=db, User=User, Role=Role)
 
 # application factory function
 def create_app(config_name='development'):
