@@ -1,10 +1,12 @@
 from enum import unique
+from app import login_manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import uuid
 
 db = SQLAlchemy()
 
@@ -16,6 +18,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(128), unique=True, index=True)
     password = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
+    user_session_id = db.String(64) # Unique to each session. Destroyed when user log out. 
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     @property
@@ -28,6 +31,17 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def get_id(self):
+        return self.user_session_id
+
+    def update_session(self):
+        self.user_session_id = str(uuid.uuid4())
+        db.session.commit()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Role(db.Model):
     __tablename__ = 'roles'

@@ -9,10 +9,5 @@
 {% endblock %}
 
 {% block content %}
-    <h1 id='title'> Home Page </h1>
-    {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.logout') }}">Wyloguj</a>
-    {% else %}
-        <a href="{{ url_for('auth.login') }}">Zaloguj</a>
-    {% endif %}
+    <h1 id='title'> Arts </h1>
 {% endblock %}
