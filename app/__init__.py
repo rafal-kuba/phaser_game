@@ -1,15 +1,15 @@
 from flask import Flask, render_template
 from flask_login import LoginManager
 
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+# login_manager = LoginManager()
+# login_manager.login_view = 'auth.login'
 
 def register_blueprints(app):
     from app.home import home as home_blueprint
-    from app.auth import auth as auth_blueprint
+    # from app.auth import auth as auth_blueprint
 
     app.register_blueprint(home_blueprint)
-    app.register_blueprint(auth_blueprint)
+    # app.register_blueprint(auth_blueprint)
 
 def initialize_extensions(app):
     from flask_migrate import Migrate
@@ -18,7 +18,7 @@ def initialize_extensions(app):
 
     db.init_app(app)
     Migrate(app, db, render_as_batch=True)
-    login_manager.init_app(app)
+    # login_manager.init_app(app)
     CSRFProtect(app)
 
 def register_errorhandlers(app):
@@ -53,10 +53,12 @@ def register_tests_commands(app):
 
 # register shell context processor
 def register_shell_context_processor(app):
-    from app.models import db, User, Role
+    # from app.models import db, User, Role
+    from app.models import db
     @app.shell_context_processor
     def shell_context():
-        return dict(db=db, User=User, Role=Role)
+        # return dict(db=db, User=User, Role=Role)
+        return dict(db=db)
 
 # application factory function
 def create_app(config_name='development'):

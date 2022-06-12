@@ -7,6 +7,6 @@ def index():
     return render_template('home.html')
 
 @home.route('/arts', methods=['GET'])
-@login_required
+# @login_required
 def arts():
     return render_template('arts.html')

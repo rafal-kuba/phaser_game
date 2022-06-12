@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Tomasz Brambor
+    Phaser Game
 {% endblock %}
 
 {% block head %}
@@ -10,9 +10,4 @@
 
 {% block content %}
     <h1 id='title'> Home Page </h1>
-    {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.logout') }}">Wyloguj</a>
-    {% else %}
-        <a href="{{ url_for('auth.login') }}">Zaloguj</a>
-    {% endif %}
 {% endblock %}
